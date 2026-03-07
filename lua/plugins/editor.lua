@@ -1,6 +1,17 @@
 -- Editor enhancements: file explorer, git, utilities
 
 return {
+  -- Smart buffer deletion (preserves window layout)
+  {
+    "famiu/bufdelete.nvim",
+    cmd = { "Bdelete", "Bwipeout" },
+    keys = {
+      { "<leader>x", "<cmd>Bdelete<cr>", desc = "Buffer close" },
+      { "<leader>bd", "<cmd>Bdelete<cr>", desc = "Buffer delete" },
+      { "<leader>bD", "<cmd>Bdelete!<cr>", desc = "Buffer force delete" },
+    },
+  },
+
   -- Neo-tree file explorer
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -12,8 +23,17 @@ return {
       "MunifTanjim/nui.nvim",
     },
     keys = {
-      { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Explorer" },
-      { "<leader>fe", "<cmd>Neotree focus<cr>", desc = "Focus Explorer" },
+      {
+        "<leader>e",
+        function()
+          if vim.bo.filetype == "neo-tree" then
+            vim.cmd("Neotree close")
+          else
+            vim.cmd("Neotree focus")
+          end
+        end,
+        desc = "Explorer toggle/focus",
+      },
     },
     opts = {
       close_if_last_window = false,

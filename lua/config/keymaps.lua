@@ -28,9 +28,7 @@ map("n", "<leader>sv", "<cmd>vsplit<CR>", { desc = "Split vertical" })
 map("n", "<leader>sh", "<cmd>split<CR>", { desc = "Split horizontal" })
 map("n", "<leader>sx", "<cmd>close<CR>", { desc = "Split close" })
 
--- Buffers (navigation handled by bufferline.nvim)
-map("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Buffer delete" })
-map("n", "<leader>x", "<cmd>bdelete<CR>", { desc = "Buffer close" })
+-- Buffers (navigation handled by bufferline.nvim, deletion by bufdelete.nvim)
 
 -- File operations
 map("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })
@@ -60,3 +58,9 @@ map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up" })
 map("n", "n", "nzzzv", { desc = "Search next" })
 map("n", "N", "Nzzzv", { desc = "Search prev" })
+
+-- Comment toggle (requires Comment.nvim)
+map("n", "<leader>/", function()
+  require("Comment.api").toggle.linewise.current()
+end, { desc = "Toggle comment" })
+map("v", "<leader>/", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", { desc = "Toggle comment" })

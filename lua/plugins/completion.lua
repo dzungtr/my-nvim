@@ -49,7 +49,7 @@ return {
       menu = {
         draw = {
           columns = {
-            { "label", "label_description", gap = 1 },
+            { "label",     "label_description", gap = 1 },
             { "kind_icon", "kind" },
           },
         },
@@ -64,7 +64,7 @@ return {
         },
       },
       ghost_text = {
-        enabled = true,
+        enabled = false,
       },
       list = {
         selection = "auto_insert",

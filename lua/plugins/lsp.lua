@@ -30,6 +30,7 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "b0o/schemastore.nvim",
+      "saghen/blink.cmp",
     },
     config = function()
       local lspconfig = require("lspconfig")
@@ -235,6 +236,8 @@ return {
           -- Default handler for all servers
           function(server_name)
             local config = server_configs[server_name] or {}
+            -- Add blink.cmp capabilities for completion support
+            config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
             lspconfig[server_name].setup(config)
           end,
         },

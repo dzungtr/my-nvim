@@ -3,7 +3,10 @@
 return {
   "akinsho/bufferline.nvim",
   version = "*",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+    "famiu/bufdelete.nvim",
+  },
   event = "VeryLazy",
   keys = {
     { "<Tab>", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
@@ -32,8 +35,8 @@ return {
       mode = "buffers",
       themable = true,
       numbers = "none",
-      close_command = "bdelete! %d",
-      right_mouse_command = "bdelete! %d",
+      close_command = "Bdelete! %d",
+      right_mouse_command = "Bdelete! %d",
       left_mouse_command = "buffer %d",
       middle_mouse_command = nil,
       indicator = {
