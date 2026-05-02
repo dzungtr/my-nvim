@@ -67,7 +67,10 @@ return {
         enabled = false,
       },
       list = {
-        selection = "auto_insert",
+        selection = {
+          preselect = true,
+          auto_insert = true,
+        },
       },
     },
 
@@ -100,7 +103,6 @@ return {
         buffer = {
           name = "Buffer",
           module = "blink.cmp.sources.buffer",
-          fallback_for = { "lsp" },
         },
       },
     },

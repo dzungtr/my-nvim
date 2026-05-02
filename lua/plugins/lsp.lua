@@ -197,11 +197,14 @@ return {
           },
         },
 
-        -- YAML (basic config, extended in kubernetes.lua)
+        -- YAML
         yamlls = {
           settings = {
             yaml = {
               keyOrdering = false,
+              schemas = {
+                kubernetes = {},
+              },
             },
           },
         },

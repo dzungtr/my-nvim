@@ -3,6 +3,7 @@
 
 return {
   "someone-stole-my-name/yaml-companion.nvim",
+  enabled = false,
   dependencies = {
     "neovim/nvim-lspconfig",
     "nvim-lua/plenary.nvim",
