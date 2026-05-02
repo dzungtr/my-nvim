@@ -1,86 +1,66 @@
--- Treesitter configuration for syntax highlighting
--- Platform engineering language support
-
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     config = function()
-      require("nvim-treesitter.configs").setup({
-        -- Install parsers for platform engineering languages
-        ensure_installed = {
-          "lua",
-          "vim",
-          "vimdoc",
-          "query",
-          -- TypeScript/JavaScript/React
-          "typescript",
-          "tsx",
-          "javascript",
-          "jsdoc",
-          "html",
-          "css",
-          -- Go
-          "go",
-          "gomod",
-          "gosum",
-          "gowork",
-          -- Infrastructure
-          "yaml",
-          "json",
-          "jsonc",
-          "terraform",
-          "hcl",
-          -- Other
-          "markdown",
-          "markdown_inline",
-          "bash",
-          "dockerfile",
-          "toml",
-          "gitignore",
-          "git_config",
-          "git_rebase",
-          "gitcommit",
-          "gitattributes",
-        },
+      require("nvim-treesitter").install({
+        "lua",
+        "vim",
+        "vimdoc",
+        "query",
+        "typescript",
+        "tsx",
+        "javascript",
+        "jsdoc",
+        "html",
+        "css",
+        "go",
+        "gomod",
+        "gosum",
+        "gowork",
+        "yaml",
+        "json",
+        "jsonc",
+        "terraform",
+        "hcl",
+        "markdown",
+        "markdown_inline",
+        "bash",
+        "dockerfile",
+        "toml",
+        "gitignore",
+        "git_config",
+        "git_rebase",
+        "gitcommit",
+        "gitattributes",
+      })
 
-        -- Auto install missing parsers
-        auto_install = true,
+      local function is_large_file(buf)
+        if vim.b[buf].large_file then
+          return true
+        end
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        return ok and stats and stats.size > 100 * 1024
+      end
 
-        -- Syntax highlighting
-        highlight = {
-          enable = true,
-          -- Disable for large files (handled by autocmd)
-          disable = function(lang, buf)
-            if vim.b[buf].large_file then
-              return true
-            end
-            local max_filesize = 100 * 1024 -- 100 KB
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then
-              return true
-            end
-          end,
-          additional_vim_regex_highlighting = false,
-        },
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(ev)
+          if not is_large_file(ev.buf) then
+            pcall(vim.treesitter.start)
+          end
+        end,
+      })
 
-        -- Indentation
-        indent = {
-          enable = true,
-          disable = { "python", "yaml" }, -- Better handled by LSP for these
-        },
-
-        -- Incremental selection
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<C-space>",
-            node_incremental = "<C-space>",
-            scope_incremental = false,
-            node_decremental = "<bs>",
-          },
-        },
+      -- incremental_selection is not provided by nvim-treesitter on main
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(ev)
+          local ft = vim.bo[ev.buf].filetype
+          if ft ~= "python" and ft ~= "yaml" and not is_large_file(ev.buf) then
+            vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          end
+        end,
       })
     end,
   },
