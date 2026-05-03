@@ -17,6 +17,7 @@ return {
         "html",
         "css",
         "go",
+        "python",
         "gomod",
         "gosum",
         "gowork",

@@ -218,6 +218,20 @@ return {
             },
           },
         },
+
+        -- Python
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                typeCheckingMode = "basic",
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "workspace",
+              },
+            },
+          },
+        },
       }
 
       -- Setup mason-lspconfig with handlers
@@ -225,6 +239,7 @@ return {
         ensure_installed = {
           "lua_ls",
           "gopls",
+          "pyright",
           "terraformls",
           "tflint",
           "yamlls",
