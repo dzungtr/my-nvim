@@ -59,6 +59,10 @@ map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up" })
 map("n", "n", "nzzzv", { desc = "Search next" })
 map("n", "N", "Nzzzv", { desc = "Search prev" })
 
+-- Mouse scroll (1 line per tick)
+map({ "n", "v", "i" }, "<ScrollWheelUp>", "<C-Y>", { desc = "Scroll up 1 line" })
+map({ "n", "v", "i" }, "<ScrollWheelDown>", "<C-E>", { desc = "Scroll down 1 line" })
+
 -- Comment toggle (requires Comment.nvim)
 map("n", "<leader>/", function()
   require("Comment.api").toggle.linewise.current()
